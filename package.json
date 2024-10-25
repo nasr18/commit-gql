@@ -1,0 +1,20 @@
+{
+  "name": "@comm-it/gql",
+  "version": "1.0.0",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node --env-file=.env --watch-path=./src --watch-preserve-output ."
+  },
+  "keywords": [],
+  "author": "Mohamed Nasrullah <md_nasrullah@ymail.com>",
+  "license": "ISC",
+  "description": "",
+  "type": "module",
+  "dependencies": {
+    "@apollo/server": "^4.11.0",
+    "cors": "^2.8.5",
+    "express": "^4.21.1",
+    "graphql": "^16.9.0",
+    "mongoose": "^8.7.2"
+  }
+}

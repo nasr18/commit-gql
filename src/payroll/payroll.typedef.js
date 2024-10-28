@@ -7,18 +7,13 @@ export const payrollTypeDefs = `#graphql
     workingDays: Int
     leaveDays: Int
     totalNetPay: Int
-    employeeId: Int!
+    employeeId: ID!
     employee: Employee!
-  }
-
-  type PayrollPeriod {
-    period: String!
-    payrollData: Payroll
   }
 
   type SegmentedPayroll {
     employee: Employee!
-    periods: [PayrollPeriod!]!
+    periods: [Payroll]
   }
 
   type AggregatedPayroll {
@@ -28,40 +23,33 @@ export const payrollTypeDefs = `#graphql
     totalWorkingDays: Int!
     totalLeaveDays: Int!
     averageNetPay: Float!
-    periodCount: Int!
+    # periodCount: Int!
   }
 
   type ComparisonPayroll {
-    employee: Employee!
-    firstPeriod: Payroll
-    secondPeriod: Payroll
-    differences: PayrollDifference!
+    employee: Employee
+    period1: Payroll
+    period2: Payroll
+    earningsDiff: Float
+    deductionsDiff: Float
+    workingDaysDiff: Int
+    leaveDaysDiff: Int
+    netPayDiff: Float
   }
 
-  type PayrollDifference {
-    earningsDifference: Int!
-    deductionsDifference: Int!
-    workingDaysDifference: Int!
-    leaveDaysDifference: Int!
-    netPayDifference: Int!
-    percentageChange: Float!
+  type PaginatedPayrollResponse {
+    items: [SegmentedPayroll]
+    totalCount: Int
   }
 
-  input PayrollFilterInput {
-    employeeId: ID
-    startDate: String
-    endDate: String
+  input DateRangeInput {
+    startDate: String!
+    endDate: String!
   }
 
   extend type Query {
-    payrolls(
-      pagination: PaginationInput = { page: 1, limit: 10 }
-      filter: PayrollFilterInput
-      sort: SortInput
-    ): [Payroll]
-
-    getSegmentedPayrolls(startDate: String!, endDate: String!): [SegmentedPayroll!]!
-    getAggregatedPayrolls(startDate: String!, endDate: String!): [AggregatedPayroll!]!
-    getComparisonPayrolls(firstPeriod: String!, secondPeriod: String!): [ComparisonPayroll!]!
+    getSegmentedPayroll(dateRange: DateRangeInput!, page: Int, limit: Int, sortField: String, sortOrder: String): PaginatedPayrollResponse
+    getAggregatedPayroll(dateRange: DateRangeInput!, page: Int, limit: Int): [AggregatedPayroll]
+    getComparisonPayroll(period1: DateRangeInput!, period2: DateRangeInput!, page: Int, limit: Int): [ComparisonPayroll]
   }
 `;

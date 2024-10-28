@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 const payrollSchema = new mongoose.Schema({
-  payrollDate: String,
+  payrollDate: String, // YYYY-MM-DD format
   totalEarnings: Number,
   deductions: Number,
   workingDays: Number,
